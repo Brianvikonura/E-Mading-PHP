@@ -1,3 +1,6 @@
+    <!-- Website Logo -->
+    <link rel="shortcut icon" href="./assets/images/logo.png">
+
 <body class="bg-[#F1F4F5] font-poppins">
 
     <?php
@@ -36,22 +39,28 @@
         <p class="flex mx-auto text-gray-500 mb-7 px-20">
             Pantau terus website E-Mading Sekolah Tinggi JeWePe untuk mendapatkan informasi terbaru.
         </p>
+        
         <div class="grid grid-cols-2 gap-x-4 gap-y-4 px-5 lg:px-0 lg:grid-cols-2 lg:px-20">
-            <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
-                <img src="./assets/images/informasi1.png" alt="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 flex flex-col justify-end p-4">
-                    <p class="text-white">Senin, 25 Desember 2023</p>
-                    <p class="text-xl font-semibold text-white mb-2">Pelaksanaan Pembekalan Sertifikasi Profesi</p>
+            <?php
+
+            $query = "SELECT * FROM tb_artikel WHERE status = 'publish' ORDER BY created_at DESC LIMIT 2";
+            $result = mysqli_query($conn, $query);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $imagePath = "./uploads/artikel/{$row['header']}";
+                ?>
+                <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
+                    <img src="<?php echo $imagePath; ?>" alt="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 flex flex-col justify-end p-4">
+                        <p class="text-white"><?php echo date('l, d F Y', strtotime($row['created_at'])); ?></p>
+                        <p class="text-xl font-semibold text-white mb-2"><?php echo $row['judul_artikel']; ?></p>
+                    </div>
                 </div>
-            </div>
-            <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
-                <img src="./assets/images/informasi2.png" alt="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 flex flex-col justify-end p-4">
-                    <p class="text-white">Senin, 18 Desember 2023</p>
-                    <p class="text-xl font-semibold text-white mb-2">Jadwal Pembekalan Sertifikasi Profesi</p>
-                </div>
-            </div>
+            <?php
+            }
+            ?>
         </div>
+
         <div class="flex flex-col lg:flex-row justify-center gap-x-3 gap-y-3 lg:gap-y-0 mt-7 px-5" id="navLinks">
             <a href="informasi.php" class="text-base bg-[#17344E] text-white py-3 rounded-full font-semibold px-8">Lihat Informasi Lebih Lanjut</a>
         </div>

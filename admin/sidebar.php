@@ -28,7 +28,7 @@
 ?>
 
     <!-- Sidebar -->
-    <div class="hidden lg:block fixed lg:max-w-[295px] w-full overflow-y-auto h-full bg-white z-[999]" id="sidebarHRIS">
+    <div class="hidden lg:block fixed lg:max-w-[295px] w-full overflow-y-auto h-full bg-white z-[999]" id="sidebar">
         <div class="px-6 py-[50px] gap-y-[50px] flex flex-col">
             <div class="flex items-center justify-between">
                 <a href="#" class="flex justify-center">

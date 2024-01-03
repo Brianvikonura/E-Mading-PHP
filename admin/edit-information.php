@@ -1,13 +1,5 @@
   <?php
     include 'sidebar.php';
-
-    // Function to check user ID that is logged in
-    function getLoggedInUserId() {
-      if (isset($_SESSION['id_users'])) {
-          return $_SESSION['id_users'];
-      }
-      return true;
-    }
   ?>
 
   <?php
@@ -132,6 +124,14 @@
                   $time = date("H-i-s");
                   $currdate = date('Y-m-d H:i:s');
 
+                  // Function to check user ID that is logged in
+                  function getLoggedInUserId() {
+                    if (isset($_SESSION['id_users'])) {
+                        return $_SESSION['id_users'];
+                    }
+                    return true;
+                  }
+
                   $id_users = getLoggedInUserId();
 
                   if ($id_users !== null) {                    
@@ -164,23 +164,23 @@
                   $rename = $_POST['header_lama'];
                 }
                 
-                $update = "UPDATE tb_artikel (header, judul_artikel, isi_artikel, status, id_users, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NULL)";
-                $stmt = mysqli_prepare($conn, $query);
+                $update = "UPDATE tb_artikel SET header=?, judul_artikel=?, isi_artikel=?, status=?, id_users=?, created_at=NOW(), updated_at=NULL WHERE id_artikel=?";
+                $stmt = mysqli_prepare($conn, $update);
 
-                mysqli_stmt_bind_param($stmt, "ssssi", $rename, $judul_artikel, $isi_artikel, $status, $id_users);
+                mysqli_stmt_bind_param($stmt, "ssssii", $rename, $judul_artikel, $isi_artikel, $status, $id_users, $id_artikel);
 
                 $update = mysqli_stmt_execute($stmt);
                 
                 if ($update) {
-                    echo '<div class="mt-6 bg-green-500 text-whiterounded-md">Saved Successfully</div>';
+                  echo '<div class="mt-6 bg-green-500 text-white p-4 rounded-md">Updated Successfully</div>';
                 } else {
-                    echo '<div class="mt-6 bg-red-500 text-white p-4 rounded-md">Failed Save: ' . mysqli_error($conn) . '</div>';
+                  echo '<div class="mt-6 bg-red-500 text-white p-4 rounded-md">Failed to Update: ' . mysqli_error($conn) . '</div>';
                 }
 
                 mysqli_stmt_close($stmt);
               }
             } else {
-              echo '<div class="mt-6 bg-red-500 text-white p-4 rounded-md">User ID is null</div>';
+              echo '';
             }
             
             ?>

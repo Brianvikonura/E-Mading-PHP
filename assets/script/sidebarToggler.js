@@ -1,7 +1,7 @@
 $(function () {
     const openBar = $("#toggleOpenSidebar")
     const closeBar = $("#toggleCloseSidebar")
-    const sidebar = $("#sidebarHRIS")
+    const sidebar = $("#sidebar")
 
     openBar.click(function () {
         sidebar.toggleClass("hidden")

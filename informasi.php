@@ -1,3 +1,6 @@
+    <!-- Website Logo -->
+    <link rel="shortcut icon" href="./assets/images/logo.png">
+
 <body class="bg-[#F1F4F5] font-poppins">
 
     <?php
@@ -20,48 +23,32 @@
 
     <!-- Content Section -->
     <section class="content max-w-7xl mx-auto pb-12 px-5">
-        <div class="grid lg:grid-cols-2 gap-x-4 gap-y-4 px-5 lg:px-0 lg:grid-cols-2 pb-7">
-            <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
-                <img src="./assets/images/informasi1.png" alt="" class="w-full h-full object-cover">
+        <?php
+            $query = "SELECT * FROM tb_artikel WHERE status = 'publish' ORDER BY id_artikel DESC";
+            $result = mysqli_query($conn, $query);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $imagePath = "./uploads/artikel/{$row['header']}";
+        ?>
+        <a href="detail-informasi.php?id=<?php echo $row['id_artikel']; ?>" class="block">
+            <div class="grid lg:grid-cols-2 gap-x-4 gap-y-4 px-5 lg:px-0 lg:grid-cols-2 pb-7">
+                <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
+                    <img src="<?php echo $imagePath; ?>" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="lg:ml-[-50px]">
+                    <h3 class="text-indigo-950 font-bold text-lg">
+                        <?php echo $row['judul_artikel']; ?>
+                    </h3>
+                    <p class="text-indigo-950"><?php echo date('l, d F Y', strtotime($row['created_at'])); ?></p>
+                    <p class="flex mx-auto text-gray-500 mb-7 mt-[-25px]">
+                        <?php echo $row['isi_artikel']; ?>
+                    </p>
+                </div>
             </div>
-            <div class="lg:ml-[-50px]">
-                <h3 class="text-indigo-950 font-bold text-lg">
-                    Pelaksanaan Pembekalan Sertifikasi Profesi
-                </h3>
-                <p class="text-indigo-950">Senin, 25 Desember 2023</p>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-        <div class="grid lg:grid-cols-2 gap-x-4 gap-y-4 px-5 lg:px-0 lg:grid-cols-2 pb-7">
-            <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
-                <img src="./assets/images/informasi2.png" alt="" class="w-full h-full object-cover">
-            </div>
-            <div class="lg:ml-[-50px]">
-                <h3 class="text-indigo-950 font-bold text-lg">
-                    Jadwal Pembekalan Sertifikasi Profesi
-                </h3>
-                <p class="text-indigo-950">Senin, 18 Desember 2023</p>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-        <div class="grid lg:grid-cols-2 gap-x-4 gap-y-4 px-5 lg:px-0 lg:grid-cols-2">
-            <div class="my-card bg-white rounded-2xl overflow-hidden lg:w-[550px] lg:h-[320px] relative">
-                <img src="./assets/images/informasi3.png" alt="" class="w-full h-full object-cover">
-            </div>
-            <div class="lg:ml-[-50px]">
-                <h3 class="text-indigo-950 font-bold text-lg">
-                    Pemilihan Skema Pembekalan Sertifikasi Profesi
-                </h3>
-                <p class="text-indigo-950">Senin, 11 Desember 2023</p>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
+        </a>
+        <?php
+            }
+        ?>
     </section>
 
     <?php
@@ -77,3 +64,4 @@
             navLinks.classList.toggle('hidden');
         });
     </script>
+</body>

@@ -1,7 +1,24 @@
+    <!-- Website Logo -->
+    <link rel="shortcut icon" href="./assets/images/logo.png">
+
 <body class="bg-[#F1F4F5] font-poppins">
 
     <?php
         include 'header.php';
+
+        $id_artikel = $_GET['id'];
+
+        // Menggunakan JOIN untuk menggabungkan data dari tb_artikel dan tb_users berdasarkan id_users
+        $query_detail = "SELECT tb_artikel.*, tb_users.name 
+                        FROM tb_artikel 
+                        JOIN tb_users ON tb_artikel.id_users = tb_users.id_users
+                        WHERE tb_artikel.id_artikel = $id_artikel";
+
+        $result_detail = mysqli_query($conn, $query_detail);
+        
+        if ($result_detail && mysqli_num_rows($result_detail) > 0) {
+            $row_detail = mysqli_fetch_assoc($result_detail);
+            $imagePath_detail = "./uploads/artikel/{$row_detail['header']}";
     ?>
 
     <!-- Description Section -->
@@ -9,7 +26,7 @@
         <div class="flex flex-col gap-y-8">
             <div class="flex gap-y-2 flex-col text-center">
                 <h1 class="text-indigo-950 font-bold text-4xl lg:text-5xl mb-4 px-5">
-                    Pelaksanaan Pembekalan Sertifikasi Profesi
+                    <?php echo $row_detail['judul_artikel']; ?>
                 </h1>
             </div>
         </div>
@@ -18,63 +35,28 @@
     <!-- Detail Information Section -->
     <section class="detail-information max-w-7xl mx-auto pb-12 px-5">
         <div class="grid grid-cols-3 gap-x-4 gap-y-4 px-5 lg:px-0 pb-7">
-            <div class="flex flex-col col-span-2 gap-y-2">
-                <p class="text-indigo-950">Senin, 25 Desember 2023 by Admin 01</p>
+            <div class="flex flex-col col-span-3 md:col-span-2 gap-y-2">
+                <p class="text-indigo-950"><?php echo date('l, d F Y', strtotime($row_detail['created_at'])); ?> by <?php echo $row_detail['name']; ?></p>
                 <h3 class="text-indigo-950 font-bold text-lg">
-                    Pelaksanaan Pembekalan Sertifikasi Profesi
+                    <?php echo $row_detail['judul_artikel']; ?>
                 </h3>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <p class="flex mx-auto text-gray-500 mb-7 md:mt-[-35px]">
+                    <?php echo $row_detail['isi_artikel']; ?>
                 </p>
             </div>
             <div class="flex flex-col">
                 <div class="my-card bg-white rounded-2xl overflow-hidden lg:h-[320px] relative">
-                    <img src="./Images/informasi1.png" alt="" class="w-full h-full object-cover">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="detail-information max-w-7xl mx-auto pb-12 px-5">
-        <div class="grid grid-cols-3 gap-x-4 gap-y-4 px-5 lg:px-0 pb-7">
-            <div class="flex flex-col col-span-2 gap-y-2">
-                <p class="text-indigo-950">Senin, 25 Desember 2023 by Admin 01</p>
-                <h3 class="text-indigo-950 font-bold text-lg">
-                    Pelaksanaan Pembekalan Sertifikasi Profesi
-                </h3>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-            <div class="flex flex-col">
-                <div class="my-card bg-white rounded-2xl overflow-hidden lg:h-[320px] relative">
-                    <img src="./Images/informasi1.png" alt="" class="w-full h-full object-cover">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="detail-information max-w-7xl mx-auto pb-12 px-5">
-        <div class="grid grid-cols-3 gap-x-4 gap-y-4 px-5 lg:px-0 pb-7">
-            <div class="flex flex-col col-span-2 gap-y-2">
-                <p class="text-indigo-950">Senin, 25 Desember 2023 by Admin 01</p>
-                <h3 class="text-indigo-950 font-bold text-lg">
-                    Pelaksanaan Pembekalan Sertifikasi Profesi
-                </h3>
-                <p class="flex mx-auto text-gray-500 mb-7">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    lorem
-                </p>
-            </div>
-            <div class="flex flex-col">
-                <div class="my-card bg-white rounded-2xl overflow-hidden lg:h-[320px] relative">
-                    <img src="./Images/informasi1.png" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo $imagePath_detail; ?>" alt="" class="hidden md:block md:w-full md:h-full md:object-cover">
                 </div>
             </div>
         </div>
     </section>
 
     <?php
+        } else {
+            echo "<p>No Data Found</p>";
+        }
+
         include 'footer.php';
     ?>
     
@@ -87,3 +69,4 @@
             navLinks.classList.toggle('hidden');
         });
     </script>
+</body>

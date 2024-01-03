@@ -1,3 +1,6 @@
+    <!-- Website Logo -->
+    <link rel="shortcut icon" href="./assets/images/logo.png">
+
 <body class="bg-[#F1F4F5] font-poppins">
 
     <?php
